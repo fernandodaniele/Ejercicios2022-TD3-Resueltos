@@ -85,7 +85,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-
+  uint32_t T = 100;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -96,9 +96,15 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1,1);
-	  HAL_Delay(500);
+	  HAL_Delay(T);
 	  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1,0);
-	  HAL_Delay(500);
+	  HAL_Delay(T);
+
+	if (HAL_GPIO_ReadPin(GPIOA, B1_Pin))
+		{
+			T += 500;
+			HAL_Delay(50); //Para antirrebote
+		}
   }
   /* USER CODE END 3 */
 }
@@ -163,6 +169,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : B1_Pin */
+  GPIO_InitStruct.Pin = B1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
 }
 

@@ -1,0 +1,21 @@
+12:26:59 **** Incremental Build of configuration Debug for project Ejemplo5-AntirreboteMEF ****
+make -j12 all 
+arm-none-eabi-gcc -o "Ejemplo5-AntirreboteMEF.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\repositorios\Ejercicios2022-TD3-Resueltos\Ejemplo5-AntirreboteMEF\Ejemplo5-AntirreboteMEF\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Ejemplo5-AntirreboteMEF.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Ejemplo5-AntirreboteMEF.elf
+ 
+arm-none-eabi-size   Ejemplo5-AntirreboteMEF.elf 
+arm-none-eabi-objdump -h -S  Ejemplo5-AntirreboteMEF.elf  > "Ejemplo5-AntirreboteMEF.list"
+arm-none-eabi-objcopy  -O binary  Ejemplo5-AntirreboteMEF.elf  "Ejemplo5-AntirreboteMEF.bin"
+   text	   data	    bss	    dec	    hex	filename
+   6100	     20	   1572	   7692	   1e0c	Ejemplo5-AntirreboteMEF.elf
+Finished building: default.size.stdout
+ 
+Finished building: Ejemplo5-AntirreboteMEF.bin
+Finished building: Ejemplo5-AntirreboteMEF.list
+ 
+ 
+arm-none-eabi-objcopy -O ihex Ejemplo5-AntirreboteMEF.elf Ejemplo5-AntirreboteMEF.hex
+ 
+
+12:27:00 Build Finished. 0 errors, 0 warnings. (took 1s.17ms)
+

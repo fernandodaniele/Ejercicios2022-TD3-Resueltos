@@ -47,7 +47,7 @@ I2S_HandleTypeDef hi2s3;
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
-uint32_t T = 1;
+volatile uint32_t T = 1;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

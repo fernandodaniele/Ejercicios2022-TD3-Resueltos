@@ -115,11 +115,11 @@ int main(void)
     HAL_Delay(T);
     HAL_GPIO_WritePin(GPIOD, LD4_Pin,0);
     HAL_Delay(T);
-
+    //					Puerto  Pin
     if (HAL_GPIO_ReadPin(GPIOA, B1_Pin))
         {
         	T += 500;
-        	HAL_Delay(50);
+        	HAL_Delay(50); //Para antirrebote
         }
   }
   /* USER CODE END 3 */
