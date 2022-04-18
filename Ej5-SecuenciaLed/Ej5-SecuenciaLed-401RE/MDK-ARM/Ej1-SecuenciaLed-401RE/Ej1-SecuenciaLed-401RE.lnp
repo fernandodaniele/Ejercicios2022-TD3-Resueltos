@@ -1,0 +1,25 @@
+--cpu=Cortex-M4.fp.sp
+"ej1-secuencialed-401re\startup_stm32f401xe.o"
+"ej1-secuencialed-401re\main.o"
+"ej1-secuencialed-401re\stm32f4xx_it.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_msp.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_tim.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_tim_ex.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_rcc.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_rcc_ex.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_flash.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_flash_ex.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_flash_ramfunc.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_gpio.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_dma_ex.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_dma.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_pwr.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_pwr_ex.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_cortex.o"
+"ej1-secuencialed-401re\stm32f4xx_hal.o"
+"ej1-secuencialed-401re\stm32f4xx_hal_exti.o"
+"ej1-secuencialed-401re\system_stm32f4xx.o"
+--strict --scatter "Ej1-SecuenciaLed-401RE\Ej1-SecuenciaLed-401RE.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "Ej1-SecuenciaLed-401RE.map" -o Ej1-SecuenciaLed-401RE\Ej1-SecuenciaLed-401RE.axf
