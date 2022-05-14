@@ -28,7 +28,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
-#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -38,6 +37,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define T_BUFFER	300 //tamaño del buffer de recepcion
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -48,7 +48,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint8_t rxByte2; //caracter recibido en UART2
+uint8_t rxByte3; //caracter recibido en UART3
+uint32_t index2 = 0,index3 = 0; //indices asociados a los buffers respectivos
+uint8_t bufferRx2[T_BUFFER];  // buffer de recepción de UART2
+uint8_t bufferRx3[T_BUFFER];  // buffer de recepción de UART2
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -59,66 +63,62 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t *data = "Técnicas Digitales III\n";
+
+int main(void)
+{
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+  /* Configure the system clock */
+  SystemClock_Config();
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_USART2_UART_Init();
+  MX_USART3_UART_Init();
+
+  HAL_UART_Receive_IT (&huart2, &rxByte2, 1); //habilita recepción de 1 byte
+  HAL_UART_Receive_IT (&huart3, &rxByte3, 1);
+
+  /* Infinite loop */
+  while (1)
+  {
+	  //naranja fanta
+  }
+}
+//Callback de recepcion de UART
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == USART2) //preguntamos de donde se recibió el dato
+	{
+		bufferRx2[index2] = rxByte2; //almacena el caracter recibido en el buffer
+		index2++;
+		if((rxByte2 == '\n') || (index2 == (T_BUFFER-1))) //Si el caracter recibido es el fin de linea, envía el dato
+		{
+			HAL_GPIO_TogglePin(GPIOD,LD3_Pin);
+			HAL_UART_Transmit_IT(&huart3, bufferRx2, index2);
+			index2 = 0;
+		}
+	HAL_UART_Receive_IT(&huart2, &rxByte2, 1);
+	}
+	else if(huart->Instance == USART3)
+	{
+		bufferRx3[index3] = rxByte3;
+		index3++;
+		if((rxByte3 == '\n') || (index3 == (T_BUFFER-1)))
+		{
+			HAL_GPIO_TogglePin(GPIOD,LD6_Pin);
+			HAL_UART_Transmit_IT(&huart2, bufferRx3, index3);
+			index3 = 0;
+		}
+		HAL_UART_Receive_IT(&huart3, &rxByte3, 1);
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
   * @retval int
   */
-int main(void)
-{
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
-  SystemClock_Config();
-
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_I2C1_Init();
-  MX_I2S3_Init();
-  MX_SPI1_Init();
-  MX_USB_DEVICE_Init();
-  MX_USART2_UART_Init();
-  /* USER CODE BEGIN 2 */
-  //HAL_UART_Transmit(&huart2, data, 10, HAL_MAX_DELAY);
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-	  HAL_UART_Transmit(&huart2, data, 1, HAL_MAX_DELAY);
-
-	  if(HAL_UART_Receive(&huart2, data, 1, 1) == HAL_OK){
-
-		  CDC_Transmit_FS(data, strlen(data));
-
-	  }
-
-
-	  HAL_Delay (1000);
-  }
-  /* USER CODE END 3 */
-}
 
 /**
   * @brief System Clock Configuration
@@ -133,6 +133,7 @@ void SystemClock_Config(void)
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
@@ -148,6 +149,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -198,4 +200,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
