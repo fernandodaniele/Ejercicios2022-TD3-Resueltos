@@ -1,0 +1,10 @@
+08:48:42 **** Incremental Build of configuration Debug for project Ej1-SecuenciaLed-Disco ****
+make -j12 all 
+arm-none-eabi-size   Ej1-SecuenciaLed-Disco.elf 
+   text	   data	    bss	    dec	    hex	filename
+  31808	    152	   3600	  35560	   8ae8	Ej1-SecuenciaLed-Disco.elf
+Finished building: default.size.stdout
+ 
+
+08:48:42 Build Finished. 0 errors, 0 warnings. (took 531ms)
+

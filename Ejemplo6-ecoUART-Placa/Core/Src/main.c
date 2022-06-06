@@ -38,6 +38,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define T_BUFFER	300 //tamaño del buffer de recepcion
+#define N_RX_BYTES	1	//cantidad de bytes que se reciben
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -75,8 +76,8 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
 
-  HAL_UART_Receive_IT (&huart2, &rxByte2, 1); //habilita recepción de 1 byte
-  HAL_UART_Receive_IT (&huart3, &rxByte3, 1);
+  HAL_UART_Receive_IT (&huart2, &rxByte2, N_RX_BYTES); //habilita recepción de 1 byte
+  HAL_UART_Receive_IT (&huart3, &rxByte3, N_RX_BYTES);
 
   /* Infinite loop */
   while (1)
@@ -97,7 +98,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			HAL_UART_Transmit_IT(&huart3, bufferRx2, index2);
 			index2 = 0;
 		}
-	HAL_UART_Receive_IT(&huart2, &rxByte2, 1);
+	HAL_UART_Receive_IT(&huart2, &rxByte2, N_RX_BYTES);
 	}
 	else if(huart->Instance == USART3)
 	{
@@ -109,7 +110,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			HAL_UART_Transmit_IT(&huart2, bufferRx3, index3);
 			index3 = 0;
 		}
-		HAL_UART_Receive_IT(&huart3, &rxByte3, 1);
+		HAL_UART_Receive_IT(&huart3, &rxByte3, N_RX_BYTES);
 	}
 }
 
